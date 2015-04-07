@@ -4,7 +4,7 @@ var helpers = require('yeoman-generator').test;
 
 describe('generator', function () {
 	beforeEach(function (cb) {
-		var deps = ['../app'];
+		var deps = ['../../app'];
 
 		helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
 			if (err) {
@@ -12,23 +12,21 @@ describe('generator', function () {
 				return;
 			}
 
-			this.generator = helpers.createGenerator('nm:app', deps);
+			this.generator = helpers.createGenerator('nmc:app', deps);
 			cb();
 		}.bind(this));
 	});
 
 	it('generates expected files', function (cb) {
 		var expected = [
-			'.editorconfig',
 			'.gitattributes',
 			'.gitignore',
-			'.jshintrc',
 			'.travis.yml',
 			'index.js',
-			'license',
+			'LICENSE',
 			'package.json',
-			'readme.md',
-			'test.js'
+			'README.md',
+			'test/test.js'
 		];
 
 		helpers.mockPrompt(this.generator, {
