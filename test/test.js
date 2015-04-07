@@ -12,7 +12,7 @@ describe('generator', function () {
 				return;
 			}
 
-			this.generator = helpers.createGenerator('nmc:app', deps);
+			this.generator = helpers.createGenerator('nmc:app', deps, '--skip-install');
 			cb();
 		}.bind(this));
 	});
