@@ -44,17 +44,15 @@ module.exports = yeoman.generators.Base.extend({
 			this.humanizedWebsite = humanizeUrl(this.website);
 			this.superb = superb();
 
-			this.template('editorconfig', '.editorconfig');
 			this.template('gitattributes', '.gitattributes');
 			this.template('gitignore', '.gitignore');
-			this.template('jshintrc', '.jshintrc');
 			this.template('travis.yml', '.travis.yml');
 			this.template('index.js');
-			this.template('license');
+			this.template('LICENSE');
 			// needed so npm doesn't try to use it and fail
 			this.template('_package.json', 'package.json');
-			this.template('readme.md');
-			this.template('test.js');
+			this.template('README.md');
+			this.template('test/test.js');
 
 			cb();
 		}.bind(this));
