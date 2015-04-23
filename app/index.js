@@ -5,6 +5,7 @@ var normalizeUrl = require('normalize-url');
 var humanizeUrl = require('humanize-url');
 var yeoman = require('yeoman-generator');
 var npm = require('npm');
+var _s = require('underscore.string');
 
 module.exports = yeoman.generators.Base.extend({
 	init: function () {
@@ -18,7 +19,7 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'What do you want to name your module?',
 				default: this.appname.replace(/\s/g, '-'),
 				filter: function (val) {
-					return instance._.slugify(val);
+					return _s.slugify(val);
 				}
 			},
 			{
@@ -69,7 +70,7 @@ module.exports = yeoman.generators.Base.extend({
 		],
 		function (props) {
 			instance.moduleName = props.moduleName;
-			instance.camelModuleName = instance._.camelize(props.moduleName);
+			instance.camelModuleName = _s.slugify(props.moduleName);
 			instance.githubUsername = props.githubUsername;
 			instance.website = props.website;
 			instance.humanizedWebsite = humanizeUrl(instance.website);
