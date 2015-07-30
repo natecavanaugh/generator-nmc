@@ -5,57 +5,72 @@ var superb = require('superb');
 var normalizeUrl = require('normalize-url');
 var humanizeUrl = require('humanize-url');
 var yeoman = require('yeoman-generator');
+var npm = require('npm');
 
 module.exports = yeoman.generators.Base.extend({
 	init: function () {
+		var instance = this;
+
 		var cb = this.async();
 
-		this.prompt([{
-			name: 'moduleName',
-			message: 'What do you want to name your module?',
-			default: this.appname.replace(/\s/g, '-'),
-			filter: function (val) {
-				return this._.slugify(val);
-			}.bind(this)
-		}, {
-			name: 'githubUsername',
-			message: 'What is your GitHub username?',
-			store: true,
-			validate: function (val) {
-				return val.length > 0 ? true : 'You have to provide a username';
-			}
-		}, {
-			name: 'website',
-			message: 'What is the URL of your website?',
-			store: true,
-			validate: function (val) {
-				return val.length > 0 ? true : 'You have to provide a website URL';
+		instance.prompt([
+			{
+				name: 'moduleName',
+				message: 'What do you want to name your module?',
+				default: this.appname.replace(/\s/g, '-'),
+				filter: function (val) {
+					return instance._.slugify(val);
+				}
 			},
-			filter: function (val) {
-				return normalizeUrl(val);
+			{
+				name: 'githubUsername',
+				message: 'What is your GitHub username?',
+				store: true,
+				validate: function (val) {
+					return val.length > 0 ? true : 'You have to provide a username';
+				}
+			},
+			{
+				name: 'website',
+				message: 'What is the URL of your website?',
+				store: true,
+				validate: function (val) {
+					return val.length > 0 ? true : 'You have to provide a website URL';
+				},
+				filter: function (val) {
+					return normalizeUrl(val);
+				}
 			}
-		}], function (props) {
-			this.moduleName = props.moduleName;
-			this.camelModuleName = this._.camelize(props.moduleName);
-			this.githubUsername = props.githubUsername;
-			this.name = this.user.git.name();
-			this.email = this.user.git.email();
-			this.website = props.website;
-			this.humanizedWebsite = humanizeUrl(this.website);
-			this.superb = superb();
+		],
+		function (props) {
+			instance.moduleName = props.moduleName;
+			instance.camelModuleName = instance._.camelize(props.moduleName);
+			instance.githubUsername = props.githubUsername;
+			instance.website = props.website;
+			instance.humanizedWebsite = humanizeUrl(instance.website);
+			instance.superb = superb();
 
-			this.template('gitattributes', '.gitattributes');
-			this.template('gitignore', '.gitignore');
-			this.template('travis.yml', '.travis.yml');
-			this.template('index.js');
-			this.template('LICENSE');
-			// needed so npm doesn't try to use it and fail
-			this.template('_package.json', 'package.json');
-			this.template('README.md');
-			this.template('test/test.js');
+			npm.load(
+				null,
+				function() {
+					instance.name = npm.config.get('init.author.name') || instance.user.git.name();
+					instance.email = npm.config.get('init.author.email') || instance.user.git.email();
 
-			cb();
-		}.bind(this));
+					instance.template('gitattributes', '.gitattributes');
+					instance.template('gitignore', '.gitignore');
+					instance.template('travis.yml', '.travis.yml');
+					instance.template('index.js');
+					instance.template('LICENSE');
+					// needed so npm doesn't try to use it and fail
+					instance.template('_package.json', 'package.json');
+					instance.template('README.md');
+					instance.template('test/test.js');
+
+					cb();
+				}
+			);
+
+		});
 	},
 
 	install: function () {
@@ -64,5 +79,5 @@ module.exports = yeoman.generators.Base.extend({
 				skipInstall: this.options['skip-install']
 			}
 		);
-	  }
+	}
 });
