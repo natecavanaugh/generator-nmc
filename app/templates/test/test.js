@@ -1,6 +1,18 @@
 'use strict';
-var assert = require('assert');
 var <%= camelModuleName %> = require('../');
+
+<%
+	if (!coverage) {
+%>var assert = require('assert');<% }
+	else {
+%>var sinon = require('sinon');
+var chai = require('chai');
+
+chai.use(require('chai-string'));
+
+var assert = chai.assert;<%
+}
+%>
 
 it(
 	'should ',

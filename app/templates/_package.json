@@ -1,7 +1,7 @@
 {
   "name": "<%= moduleName %>",
   "version": "0.0.0",
-  "description": "My <%= superb %> module",
+  "description": "<%= description %>",
   "license": "MIT",
   "repository": "<%= githubUsername %>/<%= moduleName %>",
   "author": {
@@ -12,17 +12,28 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "scripts": {
-    "test": "mocha"
+  "scripts": {<% if (coverage) { %>
+    "test": "gulp test-coverage",
+    "coveralls": "gulp coveralls"<% } else { %>
+    "test": "mocha" <% } %>
   },
-  "files": [
-    "index.js"
-  ],
   "keywords": [
     ""
   ],
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*"<% if (coverage) { %>,
+    "chai": "*",
+    "chai-string": "*",
+    "coveralls": "*",
+    "gulp-coveralls": "*",
+    "gulp-istanbul": "*",
+    "istanbul": "*",
+    "sinon": "*"<% } %><% if (gulp) { %>,
+    "gulp": "*",
+    "gulp-load-plugins": "*",
+    "gulp-help": "*",
+    "run-sequence": "*",
+    "gulp-mocha": "*"<% } %>
   }
 }

@@ -40,6 +40,32 @@ module.exports = yeoman.generators.Base.extend({
 				filter: function (val) {
 					return normalizeUrl(val);
 				}
+			},
+			{
+				name: 'description',
+				message: 'Short description of your module?',
+				default: 'My ' + superb() + ' module',
+				validate: function (val) {
+					return val.length > 0 ? true : 'You have to provide a website URL';
+				}
+			},
+			{
+				name: 'gulp',
+				default: true,
+				message: 'Do you want gulp as a dependency?',
+				type: 'confirm',
+				validate: function (val) {
+					return val.length > 0 ? true : 'You have to provide a website URL';
+				}
+			},
+			{
+				name: 'coverage',
+				default: true,
+				message: 'Do you want test coverage (istanbul, chai, and coveralls)?',
+				type: 'confirm',
+				when: function(props) {
+					return props.gulp;
+				}
 			}
 		],
 		function (props) {
@@ -48,7 +74,9 @@ module.exports = yeoman.generators.Base.extend({
 			instance.githubUsername = props.githubUsername;
 			instance.website = props.website;
 			instance.humanizedWebsite = humanizeUrl(instance.website);
-			instance.superb = superb();
+			instance.description = props.description;
+			instance.gulp = props.gulp;
+			instance.coverage = instance.gulp && props.coverage;
 
 			npm.load(
 				null,
@@ -64,6 +92,11 @@ module.exports = yeoman.generators.Base.extend({
 					// needed so npm doesn't try to use it and fail
 					instance.template('_package.json', 'package.json');
 					instance.template('README.md');
+
+					if (instance.gulp) {
+						instance.template('gulpfile.js');
+					}
+
 					instance.template('test/test.js');
 
 					cb();

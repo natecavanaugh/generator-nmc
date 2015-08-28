@@ -1,6 +1,9 @@
-# <%= moduleName %> [![Build Status](https://travis-ci.org/<%= githubUsername %>/<%= moduleName %>.svg?branch=master)](https://travis-ci.org/<%= githubUsername %>/<%= moduleName %>)
+# <%= moduleName %>
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+<% if (coverage) { %>[![Test coverage][coveralls-image]][coveralls-url]<% } %>
 
-> My <%= superb %> module
+> <%= description %>
 
 
 ## Install
@@ -15,8 +18,8 @@ $ npm install --save <%= moduleName %>
 ```js
 var <%= camelModuleName %> = require('<%= moduleName %>');
 
-<%= camelModuleName %>('unicorns');
-//=> unicorns & rainbows
+<%= camelModuleName %>('belgian');
+//=> BEST BEER EVAR!
 ```
 
 
@@ -26,7 +29,7 @@ var <%= camelModuleName %> = require('<%= moduleName %>');
 
 #### input
 
-*Required*  
+*Required*
 Type: `string`
 
 Lorem ipsum.
@@ -35,7 +38,7 @@ Lorem ipsum.
 
 ##### foo
 
-Type: `boolean`  
+Type: `boolean`
 Default: `false`
 
 Lorem ipsum.
@@ -44,3 +47,10 @@ Lorem ipsum.
 ## License
 
 MIT © [<%= name %>](<%= website %>)
+
+[npm-image]: https://img.shields.io/npm/v/<%= moduleName %>.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/<%= moduleName %>
+[travis-image]: https://img.shields.io/travis/<%= githubUsername %>/<%= moduleName %>/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/<%= githubUsername %>/<%= moduleName %>
+<% if (coverage) { %>[coveralls-image]: https://img.shields.io/coveralls/<%= githubUsername %>/<%= moduleName %>/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/<%= githubUsername %>/<%= moduleName %>?branch=master<% } %>
