@@ -1,10 +1,13 @@
 'use strict';
-module.exports = function(str, opts) {
+module.exports = function(str) {
 	if (typeof str !== 'string') {
 		throw new TypeError('Expected a string');
 	}
 
-	opts = opts || {};
+	var MAP = {
+		belgian: 'BEST BEER EVAR!',
+		ipa: 'WORST BEER EVAR!'
+	}
 
-	return str + ' & ' + (opts.postfix || 'rainbows');
+	return MAP[str] || '';
 };
