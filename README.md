@@ -2,6 +2,8 @@
 
 > Scaffold out a node module.
 
+Optionally with a [CLI](http://en.wikipedia.org/wiki/Command-line_interface).
+
 This is what I use for [my own modules](https://www.npmjs.com/~natecavanaugh).
 
 Forked from [Sindre Sorhus](http://github.com/sindresorhus/generator-nm), as while I really like the simplicity of his, I didn't want to create the .editorconfig or .jshintrc files. As time goes on, I may tweak some small things even more to my preferences.
