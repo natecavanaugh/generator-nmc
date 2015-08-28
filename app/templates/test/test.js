@@ -17,6 +17,6 @@ var assert = chai.assert;<%
 it(
 	'should ',
 	function() {
-		assert.strictEqual(<%= camelModuleName %>('unicorns'), 'unicorns & rainbows');
+		assert.strictEqual(<%= camelModuleName %>('belgian'), 'BEST BEER EVAR!');
 	}
 );
