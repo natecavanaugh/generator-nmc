@@ -50,6 +50,12 @@ module.exports = yeoman.generators.Base.extend({
 				}
 			},
 			{
+				name: 'cli',
+				message: 'Do you need a CLI?',
+				type: 'confirm',
+				default: false
+			},
+			{
 				name: 'gulp',
 				default: true,
 				message: 'Do you want gulp as a dependency?',
@@ -77,6 +83,7 @@ module.exports = yeoman.generators.Base.extend({
 			instance.description = props.description;
 			instance.gulp = props.gulp;
 			instance.coverage = instance.gulp && props.coverage;
+			instance.cli = props.cli;
 
 			npm.load(
 				null,
@@ -92,6 +99,10 @@ module.exports = yeoman.generators.Base.extend({
 					// needed so npm doesn't try to use it and fail
 					instance.template('_package.json', 'package.json');
 					instance.template('README.md');
+
+					if (instance.cli) {
+						instance.template('cli.js');
+					}
 
 					if (instance.gulp) {
 						instance.template('gulpfile.js');

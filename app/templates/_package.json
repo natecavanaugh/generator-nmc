@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "<%= description %>",
   "license": "MIT",
-  "repository": "<%= githubUsername %>/<%= moduleName %>",
+  "repository": "<%= githubUsername %>/<%= moduleName %>",<% if (cli) { %>
+  "bin": "cli.js",<% } %>
   "author": {
     "name": "<%= name %>",
     "email": "<%= email %>",
@@ -17,10 +18,15 @@
     "coveralls": "gulp coveralls"<% } else { %>
     "test": "mocha" <% } %>
   },
-  "keywords": [
+  "keywords": [<% if (cli) { %>
+    "cli-app",
+    "cli",
+    "bin",<% } %>
     ""
   ],
-  "dependencies": {},
+  "dependencies": {<% if (cli) { %>
+    "meow": "^3.0.0"
+  <% } %>},
   "devDependencies": {
     "mocha": "*"<% if (coverage) { %>,
     "chai": "*",

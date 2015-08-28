@@ -21,7 +21,30 @@ var <%= camelModuleName %> = require('<%= moduleName %>');
 <%= camelModuleName %>('belgian');
 //=> BEST BEER EVAR!
 ```
+<% if (cli) { %>
 
+## CLI
+
+```
+$ npm install --global <%= moduleName %>
+```
+```
+$ <%= moduleName %> --help
+
+  Usage
+    <%= moduleName %> [input]
+
+  Example
+    <%= moduleName %>
+    BEER!
+
+    <%= moduleName %> belgian
+    BEST BEER EVAR!
+
+  Options
+    --foo Lorem ipsum. Default: false
+```
+<% } %>
 
 ## API
 

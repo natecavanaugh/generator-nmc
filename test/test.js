@@ -34,11 +34,29 @@ describe('generator', function () {
 			moduleName: 'test',
 			githubUsername: 'test',
 			website: 'test.com',
-			gulp: false
+			gulp: false,
+			cli: false
 		});
 
 		this.generator.run(function () {
 			assert.file(expected);
+			cb();
+		});
+	});
+
+	it('CLI option', function (cb) {
+		helpers.mockPrompt(this.generator, {
+			moduleName: 'test',
+			githubUsername: 'test',
+			website: 'test.com',
+			cli: true
+		});
+
+		this.generator.run(function () {
+			assert.file('cli.js');
+			assert.fileContent('package.json', /"bin":/);
+			assert.fileContent('package.json', /"bin": "cli.js"/);
+			assert.fileContent('package.json', /"meow"/);
 			cb();
 		});
 	});
