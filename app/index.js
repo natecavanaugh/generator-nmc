@@ -94,11 +94,11 @@ module.exports = yeoman.generators.Base.extend({
 			npm.load(
 				null,
 				function() {
-					instance.name = npm.config.get('init.author.name') || instance.user.git.name();
-					instance.email = npm.config.get('init.author.email') || instance.user.git.email();
+					tpl.name = npm.config.get('init.author.name') || instance.user.git.name();
+					tpl.email = npm.config.get('init.author.email') || instance.user.git.email();
 
 					instance.fs.copyTpl([
-						instance.templatePath() + '/**',
+						instance.templatePath() + '/**/*',
 						'!**/cli.js',
 						'!**/gulp.js'
 					], instance.destinationPath(), tpl);
@@ -115,8 +115,6 @@ module.exports = yeoman.generators.Base.extend({
 					mv('gitignore', '.gitignore');
 					mv('travis.yml', '.travis.yml');
 					mv('_package.json', 'package.json');
-
-					instance.template('test/test.js');
 
 					cb();
 				}
