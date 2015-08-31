@@ -75,15 +75,21 @@ module.exports = yeoman.generators.Base.extend({
 			}
 		],
 		function (props) {
-			instance.moduleName = props.moduleName;
-			instance.camelModuleName = _s.slugify(props.moduleName);
-			instance.githubUsername = props.githubUsername;
-			instance.website = props.website;
-			instance.humanizedWebsite = humanizeUrl(instance.website);
-			instance.description = props.description;
-			instance.gulp = props.gulp;
-			instance.coverage = instance.gulp && props.coverage;
-			instance.cli = props.cli;
+			var tpl = {
+				camelModuleName: _s.camelize(props.moduleName),
+				cli: props.cli,
+				coverage: props.gulp && props.coverage,
+				description: props.description,
+				githubUsername: props.githubUsername,
+				gulp: props.gulp,
+				humanizedWebsite: humanizeUrl(props.website),
+				moduleName: props.moduleName,
+				website: props.website
+			};
+
+			var mv = function (from, to) {
+				instance.fs.move(instance.destinationPath(from), instance.destinationPath(to));
+			}
 
 			npm.load(
 				null,
@@ -91,22 +97,24 @@ module.exports = yeoman.generators.Base.extend({
 					instance.name = npm.config.get('init.author.name') || instance.user.git.name();
 					instance.email = npm.config.get('init.author.email') || instance.user.git.email();
 
-					instance.template('gitattributes', '.gitattributes');
-					instance.template('gitignore', '.gitignore');
-					instance.template('travis.yml', '.travis.yml');
-					instance.template('index.js');
-					instance.template('LICENSE');
-					// needed so npm doesn't try to use it and fail
-					instance.template('_package.json', 'package.json');
-					instance.template('README.md');
+					instance.fs.copyTpl([
+						instance.templatePath() + '/**',
+						'!**/cli.js',
+						'!**/gulp.js'
+					], instance.destinationPath(), tpl);
 
-					if (instance.cli) {
-						instance.template('cli.js');
+					if (props.cli) {
+						instance.fs.copyTpl(instance.templatePath('cli.js'), instance.destinationPath('cli.js'), tpl);
 					}
 
-					if (instance.gulp) {
-						instance.template('gulpfile.js');
+					if (props.gulp) {
+						instance.fs.copyTpl(instance.templatePath('gulpfile.js'), instance.destinationPath('gulpfile.js'), tpl);
 					}
+
+					mv('gitattributes', '.gitattributes');
+					mv('gitignore', '.gitignore');
+					mv('travis.yml', '.travis.yml');
+					mv('_package.json', 'package.json');
 
 					instance.template('test/test.js');
 
