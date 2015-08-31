@@ -20,8 +20,7 @@ var <%= camelModuleName %> = require('<%= moduleName %>');
 
 <%= camelModuleName %>('belgian');
 //=> BEST BEER EVAR!
-```
-<% if (cli) { %>
+```<% if (cli) { %>
 
 ## CLI
 
